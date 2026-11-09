@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meus sites</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23040a1c'/%3E%3Crect x='9' y='9' width='14' height='14' rx='3' transform='rotate(45 16 16)' fill='%23e4002b'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;700;800&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#040a1c;--panel:rgba(14,26,66,.55);--line:rgba(120,160,255,.2);--blue:#2f6bff;--cyan:#4fd1ff;--red:#e4002b;--text:#eaf0ff;--muted:#8fa3d6;color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+html{height:100%}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Manrope,system-ui,sans-serif;overflow-x:hidden}
+.stage{position:fixed;inset:0;overflow:hidden;z-index:0;background:radial-gradient(1200px 700px at 70% -10%,#10245e 0,transparent 60%),radial-gradient(900px 600px at 0% 100%,#0b1a4a 0,transparent 55%),var(--bg)}
+.layer{position:absolute;inset:-8%;will-change:transform;transition:transform .25s ease-out}
+.grid{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;-webkit-mask-image:radial-gradient(ellipse at 50% 30%,#000 10%,transparent 70%);mask-image:radial-gradient(ellipse at 50% 30%,#000 10%,transparent 70%)}
+.orb{position:absolute;border-radius:50%;filter:blur(70px)}
+.o1{width:420px;height:420px;left:8%;top:12%;background:rgba(47,107,255,.45)}
+.o2{width:300px;height:300px;right:10%;top:40%;background:rgba(228,0,43,.28)}
+.o3{width:360px;height:360px;left:45%;bottom:-8%;background:rgba(79,209,255,.2)}
+.shape{position:absolute;border:1.5px solid rgba(120,160,255,.32);border-radius:22px;background:linear-gradient(135deg,rgba(47,107,255,.14),transparent)}
+.s1{width:150px;height:150px;left:6%;top:60%;transform:rotate(18deg)}
+.s2{width:90px;height:90px;right:8%;top:14%;transform:rotate(-12deg);border-color:rgba(228,0,43,.55);background:linear-gradient(135deg,rgba(228,0,43,.18),transparent)}
+.s3{width:210px;height:210px;right:18%;bottom:10%;border-radius:50%;border-color:rgba(79,209,255,.3)}
+.wrap{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:30px 22px 80px}
+nav{display:flex;align-items:center;gap:6px;margin-bottom:48px}
+.dot{width:12px;height:12px;background:var(--red);border-radius:3px;transform:rotate(45deg);box-shadow:0 0 18px var(--red);margin-right:14px}
+.tab{background:none;border:0;color:var(--muted);font:700 15px Sora,sans-serif;padding:10px 16px;cursor:pointer;border-bottom:3px solid transparent;border-radius:6px 6px 0 0}
+.tab[aria-selected=true]{color:#fff;border-bottom-color:var(--red)}
+.tab:hover{color:#fff}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px}
+.tile{--c:#2f6bff;position:relative;display:flex;align-items:center;justify-content:center;text-align:center;min-height:130px;padding:20px;border-radius:20px;text-decoration:none;font:800 22px/1.15 Sora,sans-serif;letter-spacing:-.01em;background:linear-gradient(135deg,var(--c),color-mix(in srgb,var(--c) 50%,#040a1c));box-shadow:0 16px 44px color-mix(in srgb,var(--c) 38%,transparent),inset 0 0 0 1px rgba(255,255,255,.14);transition:transform .2s,box-shadow .2s;overflow-wrap:anywhere}
+.tile:hover{transform:translateY(-6px) scale(1.02);box-shadow:0 24px 60px color-mix(in srgb,var(--c) 60%,transparent),inset 0 0 0 1px rgba(255,255,255,.3)}
+.empty{color:var(--muted);padding:40px;text-align:center;border:1px dashed var(--line);border-radius:16px}
+h1{font:800 clamp(26px,4vw,38px)/1.1 Sora,sans-serif;letter-spacing:-.02em;margin:0 0 8px}
+.hint{color:var(--muted);margin:0 0 26px;max-width:60ch;line-height:1.5}
+.rows{display:grid;gap:12px}
+.row{display:grid;grid-template-columns:auto 1fr 1.6fr auto;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--red);border-radius:14px;padding:12px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+input[type=text],input[type=url]{width:100%;min-width:0;background:rgba(4,10,28,.7);border:1px solid var(--line);border-radius:10px;color:var(--text);padding:12px 13px;font:500 15px Manrope,sans-serif}
+input[type=color]{width:46px;height:46px;padding:3px;border:1px solid var(--line);border-radius:10px;background:rgba(4,10,28,.7);cursor:pointer}
+.acts{display:flex;gap:6px}
+.btn{cursor:pointer;border:1px solid var(--line);background:rgba(47,107,255,.22);color:#fff;border-radius:10px;padding:11px 14px;font:700 14px Sora,sans-serif;transition:background .2s,transform .15s}
+.btn:hover{background:rgba(47,107,255,.42)}
+.btn.del:hover{background:rgba(228,0,43,.4)}
+.btn.main{background:linear-gradient(135deg,var(--red),#ff3d5e);border:0;box-shadow:0 10px 28px rgba(228,0,43,.4);padding:13px 20px}
+.btn.main:hover{transform:translateY(-2px)}
+.bar{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.note{color:var(--muted);font-size:13px;margin-top:18px;line-height:1.5}
+@media (max-width:700px){.row{grid-template-columns:auto 1fr auto}.row .u{grid-column:1/-1;order:5}}
+@media (prefers-reduced-motion:reduce){.layer,.tile{transition:none}}
+</style>
+</head>
+<body>
+<div class="stage" aria-hidden="true">
+  <div class="layer" data-d="12"><div class="grid"></div></div>
+  <div class="layer" data-d="28"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div></div>
+  <div class="layer" data-d="60"><div class="shape s1"></div><div class="shape s2"></div><div class="shape s3"></div></div>
+</div>
+
+<div class="wrap">
+  <nav role="tablist" aria-label="Seções">
+    <span class="dot" aria-hidden="true"></span>
+    <button class="tab" role="tab" id="t-home" aria-selected="true">Sites</button>
+    <button class="tab" role="tab" id="t-edit" aria-selected="false">Editar</button>
+  </nav>
+
+  <section id="home" role="tabpanel" aria-labelledby="t-home"><div class="tiles" id="tiles"></div></section>
+
+  <section id="edit" role="tabpanel" aria-labelledby="t-edit" hidden>
+    <h1>Editar sites</h1>
+    <p class="hint">Mude o nome, o endereço e a cor de cada atalho. As alterações são salvas na hora, neste navegador.</p>
+    <div class="rows" id="rows"></div>
+    <div class="bar">
+      <button class="btn main" id="add" type="button">Adicionar site</button>
+      <button class="btn" id="exp" type="button">Exportar backup</button>
+      <button class="btn" id="imp" type="button">Importar backup</button>
+      <button class="btn del" id="rst" type="button">Restaurar padrão</button>
+      <input type="file" id="file" accept="application/json" hidden>
+    </div>
+    <p class="note" id="note"></p>
+  </section>
+</div>
+
+<script>
+(function(){
+  var KEY='meus-sites-v1';
+  /* Lista inicial: edite aqui para mudar o padrão de todos os navegadores. */
+  var DEFAULTS=[
+    {n:'Gmail',u:'https://mail.google.com',c:'#e4002b'},
+    {n:'Google Drive',u:'https://drive.google.com',c:'#2f6bff'},
+    {n:'WhatsApp Web',u:'https://web.whatsapp.com',c:'#0f9d58'},
+    {n:'Instagram',u:'https://www.instagram.com',c:'#b5179e'},
+    {n:'Agenda',u:'https://calendar.google.com',c:'#0b8bd6'},
+    {n:'GitHub',u:'https://github.com',c:'#3a4a7a'}
+  ];
+  var $=function(i){return document.getElementById(i)};
+  var items;
+  function load(){try{var d=JSON.parse(localStorage.getItem(KEY));if(Array.isArray(d))return d}catch(e){}return JSON.parse(JSON.stringify(DEFAULTS))}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(items));$('note').textContent=''}catch(e){$('note').textContent='Não foi possível salvar neste navegador. Use Exportar backup.'}}
+  items=load();
+
+  function safe(u){try{var x=new URL(u);return /^https?:$/.test(x.protocol)?x.href:'#'}catch(e){return '#'}}
+  function fix(u){u=(u||'').trim();if(u&&!/^[a-z][a-z0-9+.-]*:\/\//i.test(u))u='https://'+u;return u}
+  function ink(hex){var m=/^#?([0-9a-f]{6})$/i.exec(hex||'');if(!m)return '#fff';var n=parseInt(m[1],16),r=n>>16,g=n>>8&255,b=n&255;return (.299*r+.587*g+.114*b)/255>.64?'#06102b':'#fff'}
+
+  function renderHome(){
+    var t=$('tiles');t.textContent='';
+    if(!items.length){var e=document.createElement('div');e.className='empty';e.textContent='Nenhum site por aqui. Abra a aba Editar para adicionar.';t.appendChild(e);return}
+    items.forEach(function(it){
+      var a=document.createElement('a');a.className='tile';a.href=safe(it.u);a.textContent=it.n||'Sem nome';
+      a.style.setProperty('--c',it.c||'#2f6bff');a.style.color=ink(it.c);t.appendChild(a);
+    });
+  }
+
+  function mk(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt)e.textContent=txt;return e}
+  function renderEdit(focusLast){
+    var box=$('rows');box.textContent='';
+    items.forEach(function(it,i){
+      var r=mk('div','row');
+      var c=document.createElement('input');c.type='color';c.value=/^#[0-9a-f]{6}$/i.test(it.c)?it.c:'#2f6bff';c.setAttribute('aria-label','Cor');
+      c.oninput=function(){it.c=c.value;save()};
+      var n=document.createElement('input');n.type='text';n.value=it.n||'';n.placeholder='Nome';n.setAttribute('aria-label','Nome');n.maxLength=40;
+      n.oninput=function(){it.n=n.value;save()};
+      var wu=mk('div','u');var u=document.createElement('input');u.type='url';u.value=it.u||'';u.placeholder='https://';u.setAttribute('aria-label','Endereço');
+      u.oninput=function(){it.u=u.value;save()};u.onchange=function(){it.u=fix(u.value);u.value=it.u;save()};wu.appendChild(u);
+      var ac=mk('div','acts');
+      var up=mk('button','btn','↑');up.type='button';up.title='Subir';up.disabled=i===0;up.onclick=function(){move(i,-1)};
+      var dn=mk('button','btn','↓');dn.type='button';dn.title='Descer';dn.disabled=i===items.length-1;dn.onclick=function(){move(i,1)};
+      var rm=mk('button','btn del','Remover');rm.type='button';rm.onclick=function(){items.splice(i,1);save();renderEdit()};
+      ac.appendChild(up);ac.appendChild(dn);ac.appendChild(rm);
+      r.appendChild(c);r.appendChild(n);r.appendChild(wu);r.appendChild(ac);box.appendChild(r);
+      if(focusLast&&i===items.length-1){n.focus();n.select()}
+    });
+  }
+  function move(i,d){var j=i+d;if(j<0||j>=items.length)return;var t=items[i];items[i]=items[j];items[j]=t;save();renderEdit()}
+
+  $('add').onclick=function(){items.push({n:'Novo site',u:'https://',c:'#2f6bff'});save();renderEdit(true)};
+  $('rst').onclick=function(){if(confirm('Voltar para a lista padrão? Suas alterações serão perdidas.')){items=JSON.parse(JSON.stringify(DEFAULTS));save();renderEdit()}};
+  $('exp').onclick=function(){
+    var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(items,null,2)],{type:'application/json'}));
+    a.download='meus-sites.json';document.body.appendChild(a);a.click();a.remove();
+  };
+  $('imp').onclick=function(){$('file').click()};
+  $('file').onchange=function(){
+    var f=this.files[0];if(!f)return;var rd=new FileReader();
+    rd.onload=function(){try{var d=JSON.parse(rd.result);if(!Array.isArray(d))throw 0;
+      items=d.filter(function(x){return x&&typeof x==='object'}).map(function(x){return{n:String(x.n||''),u:String(x.u||''),c:String(x.c||'#2f6bff')}});
+      save();renderEdit();$('note').textContent='Backup importado.'}catch(e){$('note').textContent='Arquivo inválido. Use um backup exportado por esta página.'}};
+    rd.readAsText(f);this.value='';
+  };
+
+  function show(v){
+    var ed=v==='edit';
+    $('home').hidden=ed;$('edit').hidden=!ed;
+    $('t-home').setAttribute('aria-selected',String(!ed));$('t-edit').setAttribute('aria-selected',String(ed));
+    if(ed)renderEdit();else renderHome();
+    if(location.hash!==(ed?'#editar':'')&&(ed||location.hash))history.replaceState(null,'',ed?'#editar':location.pathname+location.search);
+  }
+  $('t-home').onclick=function(){show('home')};
+  $('t-edit').onclick=function(){show('edit')};
+  addEventListener('hashchange',function(){show(location.hash==='#editar'?'edit':'home')});
+  show(location.hash==='#editar'?'edit':'home');
+
+  /* Parallax */
+  var layers=[].slice.call(document.querySelectorAll('.layer')),mx=0,my=0,sy=0;
+  function paint(){layers.forEach(function(l){var d=+l.dataset.d;l.style.transform='translate3d('+(mx*d)+'px,'+(my*d-sy*d/90)+'px,0)'})}
+  if(!matchMedia('(prefers-reduced-motion:reduce)').matches){
+    addEventListener('pointermove',function(e){mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5;paint()});
+    addEventListener('scroll',function(){sy=scrollY;paint()},{passive:true});
+  }
+})();
+</script>
+</body>
+</html>
